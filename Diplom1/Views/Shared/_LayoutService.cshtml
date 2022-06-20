@@ -1,0 +1,57 @@
+﻿@using Diplom1.Helper
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="section-md section-bordered">
+    <div class="container" id="content">
+        <div class="row">
+            @RenderBody()
+            <div class="col-md-4">
+                <div id="services-list">
+                    <ul class="list-unstyled">
+                        <li>
+                            <h3>Автокондиционеры</h3>
+                            <ul class='children'>
+                                <li><a href="~/Services/conditioner/">Заправка, дезинфекция и обслуживание автокондиционеров</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <h3>Диагностика и контроль</h3>
+                            <ul class='children'>
+                                <li><a href="~/Services/diagnostikatormozov/">Диагностика тормозной системы</a></li>
+                                <li><a href="~/Services/DiagnostikaPodveski/">Диагностика подвески</a></li>
+                                <li><a href="~/Services/CompDiagnostika/">Компьютерная диагностика</a></li>
+                                <li><a href="~/Services/RazvalShozhdenie/">Развал-схождение 3D</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <h3>Ремонт и замена элементов</h3>
+                            <ul class='children'>
+                                <li><a href="~/Services/RemontRulya/">Ремонт рулевого управления</a></li>
+                                <li><a href="~/Services/RemontTormozov/">Ремонт тормозной системы</a></li>
+                                <li><a href="~/Services/RemontPodveski/">Ремонт подвески</a></li>
+                                <li><a href="~/Services/RemontKpp/">Ремонт или замена коробок передач (КПП, АКПП)</a></li>
+                                <li><a href="~/Services/RemontDvs/">Ремонт или замена двигателя внутреннего сгорания</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <h3>Техническое обслуживание</h3>
+                            <ul class='children'>
+                                <li><a href="~/Services/ZamenaMasla/">Замена масла и других технических жидкостей</a></li>
+                                <li><a href="~/Services/ZamenaFiltrov/">Замена фильтров в автомобиле</a></li>
+                                <li><a href="~/Services/Shinomontazh/">Шиномонтаж</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="list-unstyled">
+                        <li><h3>Запись на СТО по телефонам</h3></li>
+                        <li><span class="mobo-velcom-16"></span>+375 29 336-18-06</li>
+                        <li><span class="mobo-mts-16"></span>+375 33 336-18-06</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

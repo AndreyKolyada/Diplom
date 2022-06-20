@@ -1,0 +1,45 @@
+﻿@using Diplom1.Models
+@model IEnumerable<ApplicationUser>
+
+@{
+    ViewBag.Title = "Список пользователей";
+    Layout = "~/Views/Shared/_LayoutBack.cshtml";
+}
+
+<p>
+    @Html.ActionLink("Новый пользователь", "Register")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            <label>Имя пользователя</label>
+        </th>
+        <th>
+            <label>Роли</label>
+        </th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @foreach (var a in ViewBag.Roles)
+                {
+                    foreach (var b in item.Roles)
+                    {
+                        if (a.Id == b.RoleId)
+                        {
+                            <label>@a.Name</label>
+                        }
+                    }
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Редактировать", "Edit", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,144 @@
+﻿@model Diplom1.Models.Worker
+@using Diplom1.Models
+
+@{
+    ViewBag.Title = "Редактирование записи";
+    Layout = "~/Views/Shared/_LayoutBack.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Surname, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Surname, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Surname, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AccountID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @{
+                    List<ApplicationUser> l = new List<ApplicationUser>(ViewBag.Users);
+                    var sl = new List<SelectListItem>();
+                    foreach (ApplicationUser j1 in l)
+                    {
+                        if (j1.Id != Model.AccountID)
+                        {
+                            sl.Add(new SelectListItem
+                            {
+                                Value = j1.Id.ToString(),
+                                Text = j1.UserName
+                            });
+                        }
+                        else
+                        {
+                            sl.Add(new SelectListItem
+                            {
+                                Value = j1.Id.ToString(),
+                                Text = j1.UserName,
+                                Selected = true
+                            });
+                        }
+                    }
+                }
+                @Html.DropDownList("accountId", sl, htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select name="selectedStatus" class="form-control">
+                    <option value="enabled" @(Model.Status == "Работает" ? "selected=\"selected\"" : "")>Работает</option>
+                    <option value="disabled" @(Model.Status == "Уволен" ? "selected=\"selected\"" : "")>Уволен</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Jobs, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div id="checkboxForm1" class="col-md-10">
+                @foreach (Job item in ViewBag.Jobs)
+                {
+                    <input type="checkbox" name="selectedJobs" value="@item.Id" @(Model.Jobs.Contains(item) ? "checked=\"checked\"" : "") /> @item.Name <br />
+                }
+                <span class="errorJobs" style="display:none; color:red">Выберите хотя бы один вид работы</span>
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            @Html.LabelFor(model => model.Days, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div id="checkboxForm2" class="col-md-10">
+                @foreach (Day item in ViewBag.Days)
+                {
+                    <input type="checkbox" name="selectedDays" value="@item.Id" @(Model.Days.Contains(item) ? "checked=\"checked\"" : "") /> @item.Name <br />
+                }
+                <span class="errorDays" style="display:none; color:red">Выберите хотя бы один рабочий день</span>
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="buttonSubmit" type="submit" value="Сохранить" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+                    }
+
+<div>
+    @Html.ActionLink("Список сотрудников", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#buttonSubmit").click(function () {
+            var checked_checkboxes = $("#checkboxForm1 input[type=checkbox]:checked");
+            if (checked_checkboxes.length == 0) {
+                $(".errorJobs").show();
+                return false;
+            }
+            else {
+                $(".errorJobs").hide();
+            }
+            return true;
+        });
+    });
+    $(function () {
+        $("#buttonSubmit").click(function () {
+            var checked_checkboxes = $("#checkboxForm2 input[type=checkbox]:checked");
+            if (checked_checkboxes.length == 0) {
+                $(".errorDays").show();
+                return false;
+            }
+            else {
+                $(".errorDays").hide();
+            }
+            return true;
+        });
+    });
+</script>

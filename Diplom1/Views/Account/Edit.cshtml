@@ -1,0 +1,51 @@
+﻿@using Diplom1.Models
+@model EditViewModel
+
+@{
+    ViewBag.Title = "Редактирование аккаунта";
+    Layout = "~/Views/Shared/_LayoutBack.cshtml";
+}
+@using (Html.BeginForm("Edit", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    @Html.HiddenFor(m => m.Id);
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+        </div>
+    </div>    
+    <div class="form-group">
+        @Html.LabelFor(m => m.Roles, new { @class = "col-md-2 control-label" })
+        <div id="checkboxForm1" class="col-md-10">
+            @foreach (var item in ViewBag.Roles)
+                {
+                <input type="checkbox" name="Roles" value="@item.Name" @(Model.Roles.ToList().Contains(item.Id) ? "checked=\"true\"" : "") /> @item.Name <br />
+            }
+            @Html.ValidationMessageFor(m => m.Roles, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.NewPassword, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.NewPassword, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input id="buttonSubmit" type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Список аккаунтов", "Index")
+</div>
+

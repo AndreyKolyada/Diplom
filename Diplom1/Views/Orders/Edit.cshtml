@@ -1,0 +1,120 @@
+﻿@using Diplom1.Models
+@model Diplom1.Models.Order
+
+@{
+    ViewBag.Title = "Редактирование";
+    Layout = "~/Views/Shared/_LayoutBack.cshtml";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.Status)
+        @Html.HiddenFor(model => model.PersonId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Car, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Car, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Car, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", type = "date", id = "dateEditor" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Job, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @{
+                    List<Job> l = new List<Job>(ViewBag.Jobs);
+                    var sl = new List<SelectListItem>();
+                    foreach (Job j1 in l)
+                    {
+                        if (j1.Id != Model.JobId)
+                        {
+                            sl.Add(new SelectListItem
+                            {
+                                Value = j1.Id.ToString(),
+                                Text = j1.Name
+                            });
+                        }
+                        else
+                        {
+                            sl.Add(new SelectListItem
+                            {
+                                Value = j1.Id.ToString(),
+                                Text = j1.Name,
+                                Selected = true
+                            });
+                        }
+                    }
+                }
+                @Html.DropDownList("jobId", sl, htmlAttributes: new { @class = "form-control", id = "dropDownJob" })
+                @Html.ValidationMessageFor(model => model.JobId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Worker, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10" id="dropDownWorker">
+                @{ Html.RenderAction("WorkerDropDown", new { orderId = Model.Id, Model.JobId, day = Model.Date.ToString() });}
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Comment, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Comment, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Сохранить" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+                    }
+
+<div>
+    @Html.ActionLink("Вернуться к списку заказов", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#dropDownJob').on("change", function () {
+            var e = document.getElementById("dropDownJob");
+            var jobId = e.options[e.selectedIndex].value;
+            e = document.getElementById("dateEditor");
+            var dayId = e.value;
+            $('#dropDownWorker').load('/Orders/WorkerDropDown/', {orderId:@Model.Id, jobId:jobId, day:dayId});
+        });
+    });
+    $(function () {
+        $('#dateEditor').on("change", function () {
+            var e = document.getElementById("dropDownJob");
+            var jobId = e.options[e.selectedIndex].value;
+            e = document.getElementById("dateEditor");
+            var dayId = e.value;
+            $('#dropDownWorker').load('/Orders/WorkerDropDown/', {orderId:@Model.Id, jobId:jobId, day:dayId});
+        });
+    });
+</script>
+

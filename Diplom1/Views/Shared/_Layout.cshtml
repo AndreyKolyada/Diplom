@@ -1,0 +1,88 @@
+﻿@using Diplom1.Models
+@using Diplom1.Helper
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    <link rel="icon" type="image/png" href="/img/AIRMOTORS-LOGO.png" />
+</head>
+<body id="container">
+    <header>
+        <div class="main-header">
+            <div class="wrapper">
+                <nav id="absolute-nav" class="navbar navbar-default">
+                    <div class="container">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" rel="home" href="/" title="Главная">
+                                @Html.Image("/img/AIRMOTORS-LOGO.png", "Главная")
+                            </a>
+                        </div>
+                        <div class="navbar-collapse collapse">
+                            <ul class="nav navbar-nav menu">
+                                <li>@Html.ActionLink("Главная", "Index", "Home")</li>
+                                <li>@Html.ActionLink("Услуги", "Index", "Services")</li>
+                                <li>@Html.ActionLink("Акции", "Index", "Special")</li>
+                                <li>@Html.ActionLink("Контакты", "Index", "Contacts")</li>
+                                <li>@Html.ActionLink("О нас", "Index", "About")</li>
+                                <li>@Html.ActionLink("Записаться на СТО", "Index", "Zapisatsa")</li>
+                            </ul>
+
+                            <ul class="nav navbar-nav menu">
+                                @if (Request.IsAuthenticated)
+                                {
+                                    if (User.IsInRole("user") == true)
+                                    {
+                                        <li>@Html.ActionLink("Заказы", "Index", "Orders")</li>
+                                    }
+                                    if (User.IsInRole("manager") == true)
+                                    {
+                                        <li>@Html.ActionLink("Клиенты", "Index", "People")</li>
+                                        <li>@Html.ActionLink("Сотрудники", "Index", "Workers")</li>
+                                    }
+                                    if (User.IsInRole("admin") == true)
+                                    {
+                                        <li>@Html.ActionLink("Пользователи", "Index", "Account")</li>
+                                    }
+
+                                    <li><p>Здравствуйте, @User.Identity.Name!</p></li>
+                                    <li><a href="/account/logoff">Выйти</a></li>
+                                }
+
+                            </ul>
+</div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div class="body-content">
+        @RenderBody()
+    </div>
+    <div id="footer">
+        <div class="wrapper main-footer">
+            <div class="container copyright">
+                <ul class="list-inline pull-left">
+                    <li>@Html.ActionLink("Главная", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Контакты", "Index", "Contacts")</li>
+                    <li>@Html.ActionLink("О нас", "Index", "About")</li>
+                </ul>
+                <p class="pull-right">Разаработка и продвижение: <a title="Андрей Коляда" href="https://www.linkedin.com/in/andrey-kolyada-846184202/">Андрей Коляда</a></p>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

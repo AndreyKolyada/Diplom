@@ -1,0 +1,41 @@
+﻿@using Diplom1.Models
+@model Diplom1.Models.Order
+
+@{
+    List<Worker> w = new List<Worker>(ViewBag.Workers);
+    var wl = new List<SelectListItem>();
+    foreach (Worker w1 in w.Where(c => c.Days.Any(d => d.Id == (int)ViewBag.Day) &&
+        c.Jobs.Any(d => d.Id == ViewBag.JobId)))
+    {
+        if (Model.WorkerId != null)
+        {
+            if (Model.WorkerId != w1.Id)
+            {
+                wl.Add(new SelectListItem
+                {
+                    Value = w1.Id.ToString(),
+                    Text = w1.Name + " " + w1.Surname
+                });
+            }
+            else
+            {
+                wl.Add(new SelectListItem
+                {
+                    Value = w1.Id.ToString(),
+                    Text = w1.Name + " " + w1.Surname,
+                    Selected = true
+                });
+            }
+        }
+        else
+        {
+            wl.Add(new SelectListItem
+            {
+                Value = w1.Id.ToString(),
+                Text = w1.Name + " " + w1.Surname
+            });
+        }
+    }
+}
+@Html.DropDownList("WorkerId", wl, htmlAttributes: new { @class = "form-control" })
+@Html.ValidationMessageFor(model => model.WorkerId, "", new { @class = "text-danger" })

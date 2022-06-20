@@ -1,0 +1,107 @@
+﻿@using Diplom1.Models
+@model Diplom1.Models.Order
+
+@{
+    ViewBag.Title = "Информация о заказе";
+    Layout = "~/Views/Shared/_LayoutBack.cshtml";
+}
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Car)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Car)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Job)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Job.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Worker)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Worker.Name)
+            @Html.DisplayFor(model => model.Worker.Surname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Comment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Person)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Person.Name)<br />
+            +375 @Html.DisplayFor(model => model.Person.Phone)
+        </dd>
+
+    </dl>
+    @using (Html.BeginForm())
+    {
+        if (Model.Status == "Заявка" && Model.WorkerId != null && User.IsInRole("manager"))
+        {
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Подтвердить заявку" class="btn btn-default" />
+                </div>
+            </div>
+        }
+        else
+        {
+            if (Model.Status == "Подтверждён" && User.IsInRole("user"))
+            {
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Заказ выполнен" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+            else
+            {
+                if (Model.Status == "Контроль исполнения" && User.IsInRole("manager"))
+                {
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Подтвердить исполнение" class="btn btn-default" />
+                        </div>
+                    </div>
+                }
+            }
+        }
+    }
+</div>
+<p>
+    @if (User.IsInRole("manager") == true)
+    {
+        @Html.ActionLink("Редактировать", "Edit", new { id = Model.Id })
+    } | @Html.ActionLink("Вернуться к списку заказов", "Index")
+</p>
